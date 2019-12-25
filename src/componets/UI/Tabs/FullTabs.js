@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 
 const TabList = props => {
-  return <div>{this.props.children}</div>;
+  return <div>{props.children}</div>;
 };
 
 const Tab = props => {
-  return <div>{this.props.children}</div>;
+  return <div>{props.children}</div>;
 };
 
 const TabPanels = props => {
-  return <div>{this.props.children}</div>;
+  return <div>{props.children}</div>;
 };
 
 const TabPanel = props => {
-  return <div>{this.props.children}</div>;
+  return <div>{props.children}</div>;
 };
 
 const Tabs = props => {
   const [activeIndex, setActiveIndex] = useState(0);
-  return <div>{this.props.children}</div>;
+  return <div>{props.children}</div>;
 };
 
 const FullTabs = () => {
@@ -26,10 +26,21 @@ const FullTabs = () => {
     <div>
       <Tabs>
         <TabList>
-          <Tab></Tab>
-          <Tab></Tab>
-          <Tab></Tab>
+          <Tab>Tacos</Tab>
+          <Tab isDisabled>Burritos</Tab>
+          <Tab>Coconut Korma</Tab>
         </TabList>
+        <TabPanels>
+          <TabPanel>
+            <p>Tacos are delicious</p>
+          </TabPanel>
+          <TabPanel>
+            <p>Tacos are delicious</p>
+          </TabPanel>
+          <TabPanel>
+            <p>Tacos are delicious</p>
+          </TabPanel>
+        </TabPanels>
       </Tabs>
     </div>
   );
