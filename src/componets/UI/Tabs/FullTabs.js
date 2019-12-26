@@ -33,7 +33,11 @@ const Tab = props => {
   //   ? styles.activeTab
   //   : styles.tab;
   //console.log("isActive", isActive, isDisabled);
-  return <div onClick={() => props.onActivate()}>{props.children}</div>;
+  return (
+    <div onClick={isDisabled ? null : () => props.onActivate()}>
+      {props.children}
+    </div>
+  );
 };
 
 const TabPanels = props => {
