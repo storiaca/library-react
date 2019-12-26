@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 
 const TabList = props => {
+  const { activeIndex } = props;
+  const children = React.Children.map(props.children, (child, index) => {
+    console.log(index);
+    return React.cloneElement(child, {
+      isActive: index === activeIndex,
+      onActivate: () => {
+        props.onActiveTab(index);
+      }
+    });
+  });
   return (
     <div
       style={{
@@ -10,13 +20,20 @@ const TabList = props => {
         margin: "2rem auto"
       }}
     >
-      {props.children}
+      {children}
     </div>
   );
 };
 
 const Tab = props => {
-  return <div>{props.children}</div>;
+  const { isActive, isDisabled } = props;
+  // const style = isDisabled
+  //   ? styles.disabledTab
+  //   : isActive
+  //   ? styles.activeTab
+  //   : styles.tab;
+  //console.log("isActive", isActive, isDisabled);
+  return <div onClick={() => props.onActivate()}>{props.children}</div>;
 };
 
 const TabPanels = props => {
@@ -29,13 +46,18 @@ const TabPanel = props => {
 };
 
 const Tabs = props => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(1);
   const children = React.Children.map(props.children, child => {
-    console.log("child", child);
-
-    if (child.type.name === TabPanels) {
+    if (child.type === TabPanels) {
       return React.cloneElement(child, {
-        activeIndex: 1
+        activeIndex: activeIndex
+      });
+    } else if (child.type === TabList) {
+      return React.cloneElement(child, {
+        activeIndex: activeIndex,
+        onActiveTab: activeIndex => {
+          setActiveIndex(activeIndex);
+        }
       });
     } else {
       return child;
@@ -59,10 +81,10 @@ const FullTabs = () => {
             <p>Tacos are delicious</p>
           </TabPanel>
           <TabPanel>
-            <p>Tacos are delicious</p>
+            <p>Sometimes a burrito is what you really need.</p>
           </TabPanel>
           <TabPanel>
-            <p>Tacos are delicious</p>
+            <p>Might be your best option</p>
           </TabPanel>
         </TabPanels>
       </Tabs>
