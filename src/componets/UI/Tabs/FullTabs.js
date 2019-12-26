@@ -1,7 +1,18 @@
 import React, { useState } from "react";
 
 const TabList = props => {
-  return <div>{props.children}</div>;
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-around",
+        width: "350px",
+        margin: "2rem auto"
+      }}
+    >
+      {props.children}
+    </div>
+  );
 };
 
 const Tab = props => {
@@ -9,7 +20,8 @@ const Tab = props => {
 };
 
 const TabPanels = props => {
-  return <div>{props.children}</div>;
+  const activeIndex = props.activeIndex;
+  return <div>{props.children[activeIndex]}</div>;
 };
 
 const TabPanel = props => {
@@ -18,7 +30,19 @@ const TabPanel = props => {
 
 const Tabs = props => {
   const [activeIndex, setActiveIndex] = useState(0);
-  return <div>{props.children}</div>;
+  const children = React.Children.map(props.children, child => {
+    console.log("child", child);
+
+    if (child.type.name === TabPanels) {
+      return React.cloneElement(child, {
+        activeIndex: 1
+      });
+    } else {
+      return child;
+    }
+  });
+  //console.log(props.children);
+  return <div>{children}</div>;
 };
 
 const FullTabs = () => {
