@@ -1,9 +1,10 @@
+// https://www.youtube.com/watch?v=hEGg-3pIHlE&t=2114s
 import React, { useState } from "react";
 
 const TabList = props => {
   const { activeIndex } = props;
   const children = React.Children.map(props.children, (child, index) => {
-    console.log(index);
+    //console.log(index);
     return React.cloneElement(child, {
       isActive: index === activeIndex,
       onActivate: () => {
@@ -71,10 +72,32 @@ const Tabs = props => {
   return <div>{children}</div>;
 };
 
+const DataTabs = ({ data }) => {
+  return (
+    <Tabs>
+      <TabList>
+        {data.map(tab => (
+          <Tab>{tab.label}</Tab>
+        ))}
+      </TabList>
+      <TabPanels>
+        {data.map(tab => (
+          <TabPanel>{tab.description}</TabPanel>
+        ))}
+      </TabPanels>
+    </Tabs>
+  );
+};
+
 const FullTabs = () => {
+  const data = [
+    { label: "Tacos", description: <p>Tacos are good</p> },
+    { label: "Burritos", description: <p>Burritos are good too</p> }
+  ];
   return (
     <div>
-      <Tabs>
+      <DataTabs data={data} />
+      {/* <Tabs>
         <TabList>
           <Tab>Tacos</Tab>
           <Tab isDisabled>Burritos</Tab>
@@ -91,7 +114,7 @@ const FullTabs = () => {
             <p>Might be your best option</p>
           </TabPanel>
         </TabPanels>
-      </Tabs>
+      </Tabs> */}
     </div>
   );
 };
